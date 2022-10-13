@@ -1,0 +1,77 @@
+Different Databases
+Their are differnt databases with different purpose, having their own advantages and disadvantages.
+
+
+SQL
+Often known as Sequential Database/Relational Database/ Structured Database
+
+
+Advantages
+Fast read operations.
+hard to make changes once created.
+Disadvantages
+slow to write.
+Extra infromation can be stored easily.
+Not preferred for unstructured data.
+NoSQL
+Often known as Non-Sequential Database
+Advantages
+Fast write operations.
+Extra infromation can be stored easily.
+Disadvantages
+slow read operations.
+Not preferred for Structured data.
+Difference between SQL and NoSQL
+
+
+MongoDB
+MongoDB is a source-available cross-platform document-oriented database program. Classified as a NoSQL database program, MongoDB uses JSON-like documents with optional schemas. MongoDB is developed by MongoDB Inc.
+
+Installing Mongodb
+
+You can download mongo from this link Mongodb installation link
+Download it from the link and then follow the instructions
+Once installed open a terminal and type mongo and if it opens an interactive shell then we are good else you might need to open another terminal window and type mongod to start mongo deamon and then in another window try mongo again.
+MongoDB follows mongodb protocol and generally listens on port 27017
+Some basic commands for mongo
+
+show dbs # shows you all the databases on the mongo system.
+use test # this will get us into that db and if db does not exists then it will create one and then take us inside it
+db.dropDatabase() # this will drop the current database
+show collections # shows all the collections in the current db
+db.createCollection('users') # creates a users collection in the current db
+db.users.insert({"firstName": "Ritesh", "lastName": "Firodiya"}) # this will create a new document inside users
+db.users.find({}) # this will return all the documents inside users collection
+** Note ** :- Mongodb by default adds a unique _id which is unique across all collections and similar concept to MySQL
+
+db.users.insertMany([{"firstName": "Prateek", "lastName": "Shukla"}, {"firstName": "Prateek", "lastName": "Sharma"}])# this will create 2 documents
+db.users.find({}).pretty() # this shows the query results in a pretty format
+db.users.find({"firstName": "Prateek"}).pretty() # shows all the documents with firstName => Prateek
+db.users.findOne({"firstName": "Prateek"}) # shows the first document that it came across when looking for firstName => Prateek
+db.users.update({"_id": "Object Id here"}, {$set: {"lastName": "Shah"}}) # updates document with id and replaces the lastName with Shah and if the lastName was not there then it will create it
+db.users.update({"firstName": "Prateek"}, {$set: {"lastName": "Shah"}}) # updates the first document with firstName => Prateek and replaces the lastName with Shah and if the lastName was not there then it will create it.
+db.users.updateMany({"firstName": "Prateek"}, {$set: {"religion": "Hindu"}})
+db.users.remove({"firstName": "Prateek"}) # removes all documents with firstName => Prateek
+If we want to ensure only 1 document is removed then the best way is to pass a unique key .. in most cases Id db.users.remove({"_id": ObjectId of the document })
+If we do not know a unique key but still want to remove just 1 document then we can do db.users.remove({"firstName": "Prateek"}, 1) # removes the first document with firstName => Prateek
+
+// 1. show dbs; // show the databases
+// 2. use DB_name // create/select a database;
+// 3. db.createCollection("users") // tyo create a users collection.
+// 4. show collections;
+
+// CRUD
+// insertOne
+// insertMany
+
+// find({ name: "ritesh"}) 
+// findOne({name: "ritesh" })
+
+// updateOne({find condistion}, {$set: {changes}}) 
+// updateMany({find condition}, {$set: {changes}})
+
+// deleteOne({find condition}) 
+// deleteMany({find condition})
+
+// db.users.drop() // drop users collection
+// db.dropDatabase() // drop current database

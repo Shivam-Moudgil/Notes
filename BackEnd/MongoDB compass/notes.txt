@@ -1,0 +1,55 @@
+Steps Importing in MongoDB
+Create Mock JSON using Mockaroo or create it manually. users.json
+mongoimport --drop --db b20 --collection users --file ~/users.json --jsonArray
+[MongDB Compass] - Download
+Download
+Connect
+Import
+View
+Content Filter and only specific fields
+Second argument of Find function
+
+0 Means NO and is default value.
+1 means YES and it will add the key.
+Note _id is default field and will always be retuirned unless we removed manually.
+Examples
+db.users.find({}, {"age": 1})
+db.users.find({}, {"age": 1, "email": 1})
+db.users.find({}, {"age": 1, "email": 1, "_id": 0})
+Math in Mongo
+Equals: db.users.find({age: {$eq: 40}})
+Not Equals: db.users.find({age: {$ne: 40}})
+Greater than: db.users.find({age: {$gt: 40}})
+Greater than or equals: db.users.find({age: {$gte: 40}})
+Less than: db.users.find({age: {$lt: 40}})
+Less than or equals: db.users.find({age: {$lte: 40}})
+IN Range: db.users.find({"age": {$in: [40, 41, 42]}}, {"age": 1, "_id": 0})
+Not IN Range: db.users.find({"age": {$nin: [40, 41, 42]}}, {"age": 1, "_id": 0})
+LOGICAL OPERATORS
+AND: db.users.find({$and: [{"gender": "Male"}, {"age": 42}]})
+OR: db.users.find({$or: [{"gender": "Male"}, {"age": 42}]})
+Not : db.users.find({"age": {$not: {$gt: 40}}})
+NOR: db.users.find({$nor: [{"gender": "Male"}, {"age": 42}]})
+Math + Logical
+We can write comparison operators also along with logical operators for
+Example 1:
+Q1: we will get all males whose age is in the range of 40 to 45.
+A1: db.users.find({$and: [{"gender": "Male"}, {"age": {$in: [40, 41, 42, 43, 44, 45]}}).
+Example 2:
+Q2: GET Either females or users with age greater then 25.
+A2: db.users.find({$or: [{"gender": "Female"}, {"age": {$gt: 25}}]})
+ELEMENT OPERATORS
+Checking Exists:- in this we check if a field exists and if it does then does it match a condition for example :
+db.users.find({first_name: {$exists: true}})
+if your collection has all documents with same number of fields and still want to test then you can remove a field by writing below query
+Set Data : db.users.update({ "_id" : "Object_ID"}, {$set: {"first_name": "Geralda"}})There are a lot of such operators
+Unset data: db.users.update({ "_id" : "Object_ID"}, {$unset: {"first_name": "Ritesh"}})There are a lot of such operators and we will touch base on some of them later in the course and you can check them out on the documentation link below
+SORT
+db.users.find({"age": {$lt: 80}}, {"age": 1, "_id": 0}).sort({age: -1})
+Limit
+Limit 5: db.users.find({"age": {$lt: 80}}, {"age": 1, "_id": 0}).limit(5)
+Sorting and then limitig: db.users.find({"age": {$lt: 80}}, {"age": 1, "_id": 0}).sort({age: -1}).limit(5)
+Skip
+Offseting :- we can use the skip() to skip a few documents as shown below
+db.users.find({"age": {$lt: 80}}, {"age": 1, "_id": 0}).sort({age: -1}).skip(2).limit(5)
+Mongoose
