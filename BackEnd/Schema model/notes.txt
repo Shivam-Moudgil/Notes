@@ -1,0 +1,49 @@
+Online DB for free [https://cloud.mongodb.com/v2/6349280078843843f3eadcc9#clusters]
+var mongoDB = "mongodb+srv://mongo:root@cluster0.likxd.mongodb.net/abcd";
+
+const connect = () => {
+  return mongoose.connect(mongoDB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+};
+Schema
+DataTypes
+Default value
+Model
+Connection
+Default Operation
+// example
+
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+  first_name: { type: String, required: true },
+  last_name: { type: String, required: true },
+  email: { type: String, required: true },
+  gender: { type: String, required: false, default: "Male" },
+  age: { type: Number, required: true, default: 20 },
+});
+
+const User = mongoose.model("user", userSchema);
+
+module.exports = User;
+Add Data using POST api
+app.post("/users", async (req, res) => {
+  const createdUser = await userModel.create(req.body);
+  res.status(200).json(createdUser);
+});
+findById
+app.get("/users/:id", async (req, res) => {
+  const updatedInfo = await userModel.findById(req.params.id);
+  res.status(200).json(updatedInfo);
+});
+findByIdAndUpdate
+app.patch("/users/:id", async (req, res) => {
+  const updatedInfo = await userModel.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+  res.status(200).json(updatedInfo);
+});
