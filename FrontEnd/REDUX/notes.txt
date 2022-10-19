@@ -1,0 +1,112 @@
+Scaling complexity
+Over the last few weeks you have started to build larger applications, and you have started to work on state management. The complexity of building these apps will increase as the apps become bigger.
+
+Larger the app gets, the complexity of state and props have increased. Some bugs like:
+
+    Forgetting to pass a prop 
+    Managing deeply nested states
+    Duplication of state objects
+    Not Updating all dependant props
+    Components with large no of props
+    Understanding where the data is going
+Facebook and MVC
+The MVC architecture became too complex for facebook
+The complexity manifested into bugs
+Facebook rearchitectured into one-way data flow
+mvc explained by Trygve Reenskaug
+
+Watch this video on why flux architecture came into the picture:
+Rethinking Web App Development at Facebook
+
+Flux
+An application architecture for React utilising a unidirectional data flow.
+
+Views react to changes in stores
+Stores can only get updated through dipatchers
+Dispatchers can only be triggerred by actions
+Actions can only get triggered by Views
+Flux is the application architecture that Facebook uses for building client-side web applications. It complements React's composable view components by utilizing a unidirectional data flow. It's more of a pattern rather than a formal framework, and you can start using Flux immediately without a lot of new code.
+
+Flux applications have three major parts: the dispatcher, the stores, and the views (React components).
+
+Structure and Data Flow
+flux-simple
+
+Data in a Flux application flows in a single direction:
+
+A unidirectional data flow is central to the Flux pattern, and the above diagram should be the primary mental model for the Flux programmer. The dispatcher, stores and views are independent nodes with distinct inputs and outputs. The actions are simple objects containing the new data and an identifying type property.
+
+The views may cause a new action to be propagated through the system in response to user interactions:
+
+Flux-simple-action
+
+Flux diagram described
+
+Redux
+Alternative Predictable State Management
+As Flux is not a framework per se, developers have tried to come up with many implementations of the Flux pattern. Eventually, a clear winner emerged, which was Redux. Redux combines the ideas from Flux.
+
+Redux
+What is redux?
+Redux is a predictable state container for any JavaScript application. For our purpose we are going to use Redux to manage a React Application.
+
+However, Redux has nothing to do with React JS, you can write applications that use Redux in plain JavaScript and direct DOM updates. Redux can also be used with any Front End or Backend framework like AngularJS, EmberJS, VueJS etc.
+
+The three core principles of Redux
+Single Source of Truth:
+State is READ only
+Changes in Redux are made with pure functions:
+These are true, from a certain point of view. They
+
+These principles are used to explain about how Redux should be used.
+
+1. Single Source of Truth:
+The store in redux is known as the single source of truth. This is because there is only one store in redux and it holds all the application state. Any state that need to be read in redux can only be done from the store.
+
+2. State is READ only
+You cannot modify state directly in Redux like you do within a React application using setState().
+
+According to the Redux Docs, "The only way to change the state is to emit an action, an object describing what happened."
+
+Only modify state in Redux using actions and reducers!
+
+3. Changes in Redux are made with pure functions:
+Pure functions are functions that do not modify their arguments. Instead they create copies of the arguments and modify and change those copies to be returned later.
+
+Moreover for any given input, pure functions will always return the same value.
+
+Action -> Reducer -> Update Store
+actions
+Actions are payloads of information that send data from your application to your store.
+They are the only source of information for the store.
+Remember that actions only describe what happened, but don't describe how the application's state changes.
+dispatch
+Dispatches an action.
+This is the only way to trigger a state change in the store.
+reducer
+Reducers specify how the application's state changes in response to actions sent to the store.
+store
+A store holds the whole state tree of your application.
+The only way to change the state inside it is to dispatch an action on it.
+The store has the following responsibilities:
+
+Holds application state
+Allows access to state
+Allows state to be updated via dispatch(action)
+Allows the app to listen to changes in the state
+pure function -
+Pure functions do not modify the values passed to them. For example, squareAll function that accepts an array does not overwrite the items inside this array. Instead, it returns a new array by using items map.
+
+Pure functions do not have any observable side effects, such as network or database calls. The pure functions just calculate the new value. You can be confident that if you call the pure function with the same set of arguments, you're going to get the same returned value. They are predictable.
+
+On the opposite, impure functions may call the database or the network, they may have side effects, they may operate on the DOM, and they may override the values that you pass to them. This is going to be an important distinction because some of the functions that you're going to write in Redux have to be pure, and you need to be mindful of that.
+
+Animation
+Animation
+
+Cartoon guide
+Cartoon guide to Redux
+
+References
+Tao of redux part 1
+Tao of redux part 2
