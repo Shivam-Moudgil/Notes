@@ -1,0 +1,163 @@
+Redux configuring
+persist data with local storage
+combineReducers
+separate your reducers
+middlewares
+Persisting Local Storage
+Many times you want to persist data and when refreshing you want load that data.
+
+This can be maybe when you want to load the data like token data, user session details, or some component details that you saved earlier.
+
+So we can do this in many ways:
+
+// Your initial state can refer to the data from localStorage
+
+// We have to be careful when loadng data, if the data does not exist it can give you errors.
+
+// So we can write a helper function:
+
+// We can wrap this on a try catch block
+
+function loadData(key) {
+  try {
+    let data = localStorage.getItem(key);
+    data = JSON.parse(data);
+    return data;
+  } catch (err) {
+    return undefined;
+    // or return
+  }
+}
+
+const initState = loadData("state") || { counter: 0, isAuth: false, token: "" };
+
+// to save data we can use a helper function
+
+function saveData(key, data = "") {
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+function reducer(state, { type, payload }) {
+  switch (type) {
+    case LOGIN_SUCCESS:
+      saveData("token", payload.token);
+      return {
+        ...state,
+        token: payload.token,
+        isAuth: true,
+      };
+  }
+}
+
+// we can also modify in this manner
+
+const initState = {
+  counter: 0,
+  isAuth: false,
+  token: loadData("token") || "",
+};
+combineReducers:
+It is important to keep our code structured, so when the app becomes larger it is quite common to separate the reducers and action based on their functionality or other factors:
+
+For example you can have
+
+auth reducers
+user reducers
+admin reducers
+We do this due to separation of concerns:
+
+Folder structure if you are separating based on functionality
+- redux
+    - store.js
+    - auth
+        - action.js
+        - reducer.js
+    - user
+        - action.js
+        - reducer.js
+    - admin
+        - action.js
+        - reducer.js
+We need to maintain the initial state inside each function
+
+
+const  reducer = ( state = initState, {type, payload} ) => { ... }
+export {reducer}
+store.js
+So in our store.js
+
+import {createStore, combineReducer } from "redux";
+import authReducer from "./auth/reducer";
+import userReducer from "./user/reducer";
+
+// combineReducer takes an object as argument
+const rootReducer = combineReducer({ auth: authReducer, user: userReducer });
+
+// this will lead to creating your store like this
+// assuming the initState in each reducer are both Objects
+//  { auth: {...} user: { ... } }
+
+const store = createStore(rootReducer);
+Middlewares
+Redux allows us to create middlewares and use them
+
+these are used to enhance your store with features that help you debug or manage a few things better
+think of it as small plugins that you attach to your browser, similar to that redux allows you to add middlewares to it
+A middleware is nothing but a small piece of software that does some work and calls the next middleware or continues with the program
+
+Logging information is an example of a middleware.
+
+example
+import { createStore, combineReducer, applyMiddleware } from "redux";
+// we can import a helper applyMiddleware from redux
+
+// you can write a middleware in this format
+// next is the next middleware available, and action is the action that needs to passed to redux store
+// if no next is there, it will continue to the redux store
+const logger = (state) => (next) => (action) => {
+  console.log(" dispatching the action ", action);
+  return next(action);
+};
+
+const logger2 = (state) => (next) => (action) => {
+  console.log(" dispatching the action ", action);
+  const returnValue = next(action);
+  // if you want to log some information after the change
+  console.log("state after action is", store.getState());
+};
+
+const store = createStore(rootReducer, applyMiddleware(logger, logger2));
+
+// applyMiddleware takes no of middlewares
+applyMiddleware(...middlewares);
+compose
+This will start to log information evertime user dispatches an action
+
+There are some loggers out there from redux store
+
+These are called enhancers, if we want to use multiple enhancers, we can use a helper called compose
+
+Improved readability and convenience are the main advantages of using compose.
+
+Compose is used when you want to pass multiple store enhancers to the store. Store enhancers are higher order functions that add some extra functionality to the store. The only store enhancer which is supplied with Redux by default is applyMiddleware however many other are available. Store Enhancers are Higher Order Functions.
+
+code
+import { createStore, combineReducer, applyMiddleware, compose } from "redux";
+// we can import a helper applyMiddleware from redux
+
+// you can write a middleware in this format
+// next is the next middleware available, and action is the action that needs to passed to redux store
+// if no next is there, it will continue to the redux store
+const logger = (state) => (next) => (action) => {
+  console.log(" dispatching the action ", action);
+  return next(action);
+};
+
+const createComposer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  rootReducer,
+  createComposer(applyMiddleware(logger, logger2))
+);
+references
+https://redux.js.org/recipes/configuring-your-store
