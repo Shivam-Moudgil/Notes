@@ -1,0 +1,8 @@
+Clone: https://github.com/riteshf/lec
+cd lec
+npm i
+npm start
+To start Server run followig command
+json-server --watch db.json --port 8080
+Note:
+Go through the code to understand the structure.
