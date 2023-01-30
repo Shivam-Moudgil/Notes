@@ -1,19 +1,26 @@
 Q1: How does React work?
 React Interview Questions   
-Answer
+Answer:
 React creates a virtual DOM. When state changes in a component it firstly runs a "diffing" algorithm, which identifies what has changed in the virtual DOM. The second step is reconciliation, where it updates the DOM with the results of diff.
 
 Q2: What are React Hooks?
-Answer
+Answer:
 Hooks are a new addition in React 16.8. They let you use state and other React features without writing a class. With Hooks, you can extract stateful logic from a component so it can be tested independently and reused. Hooks allow you to reuse stateful logic without changing your component hierarchy. This makes it easy to share Hooks among many components or with the community.
 
 Q3: What are props in React?
 
-Answer
+Answer:
 Props are inputs to a React component. They are single values or objects containing a set of values that are passed to React Components on creation using a naming convention similar to HTML-tag attributes. i.e, They are data passed down from a parent component to a child component.
-
 The primary purpose of props in React is to provide following component functionality:
-
 Pass custom data to your React component.
 Trigger state changes.
 Use via this.props.reactProp inside component's render() method.
+
+Q4: What are the advantages of ReactJS?
+Answer
+Below are the advantages of ReactJS:
+Increases the application’s performance with Virtual DOM
+JSX makes code is easy to read and write
+It renders both on client and server side
+Easy to integrate with other frameworks (Angular, BackboneJS) since it is only a view library
+Easy to write UI Test cases and integration with tools such as JEST.
